@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect,Http404
 from django.template import loader
 from django.urls import reverse
-from .models import Workers
+from .models import Workers,BlogPost
 
 # Create your views here.
 
@@ -53,5 +53,36 @@ def edit(request,id):
         return HttpResponseRedirect('/employee/')  
 
     return render(request,'employee/edit.html',context)
+
+
+
+
+
+
+def blog(request):
+    myBlog = BlogPost.objects.all()
+    featuredBlog = BlogPost.objects.filter(featured=True)
+    context = {
+        'blogs':myBlog,
+        'featuredBlogs':featuredBlog
+    }
+    return render(request,'employee/blog.html',context)
+
+
+
+def details(request):
+    # context = {
+    #     'details':details
+    # }
+    return render(request,'employee/details.html')
+    
+
+
+def detailsId(request,id):
+    details =BlogPost.objects.get(pk=id)
+    context = {
+        'details':details
+    }
+    return render(request,'employee/details.html',context)
 
 
